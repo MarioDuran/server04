@@ -14,14 +14,14 @@ export const query = (text, params) => {
 const initializeDatabase = async () => {
     try {
         await query(`
-            CREATE TABLE users (
+            CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL
             );
 
-            CREATE TABLE otps (
+            CREATE TABLE IF NOT EXISTS otps (
             id SERIAL PRIMARY KEY,
             user_id INTEGER REFERENCES users(id),
             otp VARCHAR(10) NOT NULL,

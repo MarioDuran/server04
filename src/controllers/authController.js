@@ -3,8 +3,6 @@ import pool from '../db.js';
 import sendOtpEmail from '../utils/sendEmail.js';
 import generateOtp from '../utils/generateOtp.js';
 
-const otp = generateOtp();
-
 export const signup = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -19,7 +17,7 @@ export const signup = async (req, res) => {
             [name, email, hashedPassword]
         );
 
-        res.status(201).json({ message: 'User created successfully' });
+        res.status(200).json({ message: 'User created successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error creating user', error });
     }
@@ -41,6 +39,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
+        const otp = generateOtp();
         const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
 
         await pool.query(
